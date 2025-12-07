@@ -1,12 +1,17 @@
 import { askLLM } from '../../llmClient.js';
+import { bulletPrompt } from '../prompts/bullets.js';
+import { summaryPrompt } from '../prompts/summary.js';
 
 export const handleRewrite = async (req, res) => {
-  const { text } = req.body;
+  const { text, job } = req.body;
+
   if (!text) return res.status(400).json({ error: 'text field required' });
 
-  const prompt = `Rewrite the following resume text to be more professional and ATS-friendly:\n\n"${text}"\n\nReturn only improved text.`;
+  const bullets = await askLLM(bulletPrompt(text, job));
+  const summary = await askLLM(summaryPrompt(text, job));
 
-  const improved = await askLLM(prompt);
-
-  res.json({ improved });
+  res.json({
+    bullets: bullets.split('/n').filter(Boolean),
+    summary,
+  });
 };
