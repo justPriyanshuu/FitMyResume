@@ -1,27 +1,25 @@
-export const rewritePrompt = (resume, job) => `
-Rewrite the following resume content to match this job description.
+export const buildRewritePrompt = (text, job) => `
+You are an expert ATS resume optimizer.
 
-You must return:
-1. 4–6 ATS-friendly bullet points (short, action verbs, measurable impact)
-2. A 2–3 line professional summary tailored to the job
+Rewrite the resume ONLY for the job below:
+JOB DESCRIPTION:
+${job}
 
-Rules:
-- Do NOT hallucinate new skills.
-- Use keywords from the job description when appropriate.
-- Keep it professional and concise.
-- Output format MUST be:
+Extract the following in STRICT JSON:
 
-BULLETS:
-- ...
-- ...
-- ...
+{
+  "bullets": ["3-5 short ATS optimized bullet points only"],
+  "summary": "2–3 sentence professional summary only"
+}
 
-SUMMARY:
-...
-
-Resume:
-${resume}
-
-Job Description:
-${job ?? "N/A"}
+RULES:
+- DO NOT include personal info (name, email, phone, address, education).
+- DO NOT repeat resume content.
+- DO NOT include long paragraphs or entire resume blocks.
+- ONLY give optimized ATS content.
+- SUMMARY must be MAX 2–3 sentences.
+- BULLETS must be crisp, action-driven, and job-focused.
+- Output JSON ONLY, no extra text.
+RESUME:
+${text}
 `;
