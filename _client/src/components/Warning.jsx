@@ -10,7 +10,7 @@ const Warning = () => {
             AI runs locally… on <span className="text-red-300">my</span> laptop.
           </p>
           <p className="text-sm text-red-400 mt-1">
-            Yours just gets the privilege of looking at this beautiful interface.
+            You just get the privilege of looking at this beautiful interface.
           </p>
         </div>
       </div>
